@@ -185,37 +185,43 @@ NSString *const kFLEXNetworkRecorderResponseCacheLimitDefaultsKey = @"com.flex.r
             [self.responseCache setObject:responseBody forKey:requestID cost:responseBody.length];
         }
 
-        NSString *mimeType = transaction.response.MIMEType;
-        if ([mimeType hasPrefix:@"image/"] && responseBody.length > 0) {
-            // Thumbnail image previews on a separate background queue
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                NSInteger maxPixelDimension = UIScreen.mainScreen.scale * 32.0;
-                transaction.responseThumbnail = [FLEXUtility thumbnailedImageWithMaxPixelDimension:maxPixelDimension fromImageData:responseBody];
-                [self postUpdateNotificationForTransaction:transaction];
-            });
-        } else if ([mimeType isEqual:@"application/json"]) {
-            transaction.responseThumbnail = [FLEXResources jsonIcon];
-        } else if ([mimeType isEqual:@"text/plain"]){
-            transaction.responseThumbnail = [FLEXResources textPlainIcon];
-        } else if ([mimeType isEqual:@"text/html"]) {
-            transaction.responseThumbnail = [FLEXResources htmlIcon];
-        } else if ([mimeType isEqual:@"application/x-plist"]) {
-            transaction.responseThumbnail = [FLEXResources plistIcon];
-        } else if ([mimeType isEqual:@"application/octet-stream"] || [mimeType isEqual:@"application/binary"]) {
-            transaction.responseThumbnail = [FLEXResources binaryIcon];
-        } else if ([mimeType rangeOfString:@"javascript"].length > 0) {
-            transaction.responseThumbnail = [FLEXResources jsIcon];
-        } else if ([mimeType rangeOfString:@"xml"].length > 0) {
-            transaction.responseThumbnail = [FLEXResources xmlIcon];
-        } else if ([mimeType hasPrefix:@"audio"]) {
-            transaction.responseThumbnail = [FLEXResources audioIcon];
-        } else if ([mimeType hasPrefix:@"video"]) {
-            transaction.responseThumbnail = [FLEXResources videoIcon];
-        } else if ([mimeType hasPrefix:@"text"]) {
-            transaction.responseThumbnail = [FLEXResources textIcon];
-        }
+//        NSString *mimeType = transaction.response.MIMEType;
+//        if ([mimeType hasPrefix:@"image/"] && responseBody.length > 0) {
+//            // Thumbnail image previews on a separate background queue
+//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//                NSInteger maxPixelDimension = UIScreen.mainScreen.scale * 32.0;
+//                transaction.responseThumbnail = [FLEXUtility thumbnailedImageWithMaxPixelDimension:maxPixelDimension fromImageData:responseBody];
+//                [self postUpdateNotificationForTransaction:transaction];
+//            });
+//        } else if ([mimeType isEqual:@"application/json"]) {
+//            transaction.responseThumbnail = [FLEXResources jsonIcon];
+//        } else if ([mimeType isEqual:@"text/plain"]){
+//            transaction.responseThumbnail = [FLEXResources textPlainIcon];
+//        } else if ([mimeType isEqual:@"text/html"]) {
+//            transaction.responseThumbnail = [FLEXResources htmlIcon];
+//        } else if ([mimeType isEqual:@"application/x-plist"]) {
+//            transaction.responseThumbnail = [FLEXResources plistIcon];
+//        } else if ([mimeType isEqual:@"application/octet-stream"] || [mimeType isEqual:@"application/binary"]) {
+//            transaction.responseThumbnail = [FLEXResources binaryIcon];
+//        } else if ([mimeType rangeOfString:@"javascript"].length > 0) {
+//            transaction.responseThumbnail = [FLEXResources jsIcon];
+//        } else if ([mimeType rangeOfString:@"xml"].length > 0) {
+//            transaction.responseThumbnail = [FLEXResources xmlIcon];
+//        } else if ([mimeType hasPrefix:@"audio"]) {
+//            transaction.responseThumbnail = [FLEXResources audioIcon];
+//        } else if ([mimeType hasPrefix:@"video"]) {
+//            transaction.responseThumbnail = [FLEXResources videoIcon];
+//        } else if ([mimeType hasPrefix:@"text"]) {
+//            transaction.responseThumbnail = [FLEXResources textIcon];
+//        }
         
-        [self postUpdateNotificationForTransaction:transaction];
+//        [self postUpdateNotificationForTransaction:transaction];
+        
+        if([transaction.request.URL.host isEqualToString:@"tokopedia.com"]) {
+            transaction.responseThumbnail = [FLEXResources jsonIcon];
+            [self postUpdateNotificationForTransaction:transaction];
+        }
+
     });
 }
 

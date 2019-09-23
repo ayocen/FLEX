@@ -185,7 +185,7 @@ NSString *const kFLEXNetworkRecorderResponseCacheLimitDefaultsKey = @"com.flex.r
             [self.responseCache setObject:responseBody forKey:requestID cost:responseBody.length];
         }
 
-//        NSString *mimeType = transaction.response.MIMEType;
+        NSString *mimeType = transaction.response.MIMEType;
 //        if ([mimeType hasPrefix:@"image/"] && responseBody.length > 0) {
 //            // Thumbnail image previews on a separate background queue
 //            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -217,7 +217,7 @@ NSString *const kFLEXNetworkRecorderResponseCacheLimitDefaultsKey = @"com.flex.r
         
 //        [self postUpdateNotificationForTransaction:transaction];
         
-        if([transaction.request.URL.host isEqualToString:@"tokopedia.com"]) {
+        if([transaction.request.URL.host isEqualToString:@"tokopedia.com"] && [mimeType isEqual:@"application/json"]) {
             transaction.responseThumbnail = [FLEXResources jsonIcon];
             [self postUpdateNotificationForTransaction:transaction];
         }

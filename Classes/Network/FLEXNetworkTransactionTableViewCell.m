@@ -106,6 +106,12 @@ NSString *const kFLEXNetworkTransactionCellIdentifier = @"kFLEXNetworkTransactio
     if (query) {
         name = [name stringByAppendingFormat:@"?%@", query];
     }
+    
+    NSString *parameter = [url parameterString];
+    if(parameter) {
+        name = [name stringByAppendingFormat:@"?%@", parameter];
+    }
+    
     return name;
 }
 
